@@ -153,8 +153,8 @@ public class NestLevelMeter
 
   public static void main(String args[])
   {
-    System.err.println("NestLevelMeter ver.0.1 ");
-    System.err.println("(C) 2013 Hirohisa AMAN <aman@computer.org>");
+    System.err.println("NestLevelMeter ver.0.2 ");
+    System.err.println("(C) 2013-2017 Hirohisa AMAN <aman@computer.org>, Sho SUZUKI");
 	System.err.println("This is developed based on JavaCC example code, JavaParser to parse Java version 1.5 (by Sreenivasa Viswanadha)");
 
     NestLevelMeter parser;
@@ -169,7 +169,6 @@ public class NestLevelMeter
    				mode = Mode.BOTH;
    			}
    			else{
-   			    // 未定義オプションの場合 --> 使い方を表示して終了
 				printUsage();
    				return;
    			}
