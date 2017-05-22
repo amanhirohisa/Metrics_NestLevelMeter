@@ -47,13 +47,13 @@ import java.io.*;
  */
 public class NestLevelMeter
 {
-   static int count = 0;
-   static int nestSum = 0;
-   static int nestLevel = 0;
-   static int maxNestLevel = 0;
+   private int count = 0;
+   private int nestSum = 0;
+   private int nestLevel = 0;
+   private int maxNestLevel = 0;
    enum Mode { AVERAGE, MAX, BOTH };
 
-   public static void doCount()
+   public void doCount()
    {
 		count++;
 		nestSum += nestLevel;
@@ -158,8 +158,8 @@ public class NestLevelMeter
 	System.err.println("This is developed based on JavaCC example code, JavaParser to parse Java version 1.5 (by Sreenivasa Viswanadha)");
 
     NestLevelMeter parser;
-    Mode mode = Mode.AVERAGE;    	    	
-   	String target = null;    	
+    Mode mode = Mode.AVERAGE;
+   	String target = null;
    	for ( int i = 0; i < args.length; i++ ){
    		if ( args[i].startsWith("--") ){
    			if ( args[i].equals("--max") ){
@@ -179,7 +179,7 @@ public class NestLevelMeter
    			break;
    		}
    	}
-    	
+
     if ( target == null ) {
       System.err.println("Reading from standard input . . .");
       target = "(standard input)";
@@ -197,25 +197,25 @@ public class NestLevelMeter
 			return;
       }
     }
-    
+
     try {
-      System.err.println("====================================================================");      
+      System.err.println("====================================================================");
       parser.CompilationUnit();
       System.err.println("The nesting levels are measured successfully.");
       System.out.print( target==null ? "(standard input)" : target);
       System.out.print(",");
       switch ( mode )      {
         case AVERAGE:
-        	System.out.println(((double)nestSum)/count);
+        	System.out.println(parser.getAverageNestLevel());
         	break;
         case MAX:
-        	System.out.println(maxNestLevel);
+        	System.out.println(parser.getMaxNestLevel());
         	break;
         case BOTH:
-        	System.out.println(((double)nestSum)/count + "," + maxNestLevel);
+        	System.out.println(parser.getAverageNestLevel() + "," + parser.getMaxNestLevel());
         	break;
-      }      
-      System.err.println("====================================================================");      
+      }
+      System.err.println("====================================================================");
     }
     catch (ParseException e) {
       System.err.println(e.getMessage());
@@ -232,6 +232,16 @@ public class NestLevelMeter
 				System.err.println("  (option)");
 				System.err.println(" \t--max:  output the maximum nest level");
 				System.err.println(" \t--all:  output both the average nest level and the maximum nest level");  }
+
+  public double getAverageNestLevel()
+  {
+    return (double)this.nestSum/this.count;
+  }
+
+  public int getMaxNestLevel()
+  {
+    return this.maxNestLevel;
+  }
 }
 
 PARSER_END(NestLevelMeter)
